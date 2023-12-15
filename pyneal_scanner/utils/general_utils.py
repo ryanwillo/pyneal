@@ -81,13 +81,13 @@ class ScannerSettings():
         Returns
         -------
         string
-            scanner make {'GE', 'GEMB', 'Philips', 'Siemens'}
+            scanner make {'GE', 'GEMB', 'Philips', 'Siemens', 'SiemensNX'}
 
         """
         # add scannerMake, if not already in allSettings
         if 'scannerMake' not in self.allSettings:
             self.set_config('scannerMake',
-                            instructions="type: GE, Philips, or Siemens")
+                            instructions="type: GE, Philips, Siemens, or SiemensNX")
 
         # return setting
         return self.allSettings['scannerMake']
@@ -282,6 +282,10 @@ def initializeSession(pynealScannerDir=None):
 
     elif scannerMake == 'Siemens':
         from utils.Siemens_utils import Siemens_DirStructure
+        scannerDirs = Siemens_DirStructure(scannerSettings)
+
+    elif scannerMake == 'SiemensNX':
+        from utils.SiemensNX_utils import Siemens_DirStructure
         scannerDirs = Siemens_DirStructure(scannerSettings)
 
     elif scannerMake == 'sandbox':

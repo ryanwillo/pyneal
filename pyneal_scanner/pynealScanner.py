@@ -74,6 +74,14 @@ def pynealScanner_Siemens(scannerSettings, scannerDirs):
     # launch a real-time session
     Siemens_launch_rtfMRI(scannerSettings, scannerDirs)
 
+def pynealScanner_SiemensNX(scannerSettings, scannerDirs):
+    """ Launch Pyneal Scanner for real-time scan in a Siemens Numaris X environment
+
+    """
+    from utils.SiemensNX_utils import Siemens_launch_rtfMRI
+
+    # launch a real-time session
+    Siemens_launch_rtfMRI(scannerSettings, scannerDirs)
 
 def pynealScanner_sandbox(scannerSettings, scannerDirs):
     """ Simple sandbox method for launching a real-time scan using experimental
@@ -156,6 +164,8 @@ if __name__ == "__main__":
         pynealScanner_Philips(scannerSettings, scannerDirs)
     elif scannerMake == 'Siemens':
         pynealScanner_Siemens(scannerSettings, scannerDirs)
+    elif scannerMake == 'SiemensNX':
+        pynealScanner_SiemensNX(scannerSettings, scannerDirs)
     elif scannerMake == 'sandbox':
         pynealScanner_sandbox(scannerSettings, scannerDirs)
     else:

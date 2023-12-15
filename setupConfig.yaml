@@ -1,0 +1,12 @@
+pynealHost: 127.0.0.1
+pynealScannerPort: 5555
+resultsServerPort: 5556
+maskFile: /home/cinl/pyneal-tutorial/Siemens_demo/dummyMask_64-64-18.nii.gz
+maskIsWeighted: false
+numTimepts: 60
+analysisChoice: Average
+estimateMotion: False
+outputPath: /home/cinl/pyneal-tutorial/Siemens_demo/output/
+launchDashboard: False
+dashboardPort: 5557
+dashboardClientPort: 5558
