@@ -1,0 +1,5 @@
+pynealSocketHost: 127.0.0.1
+pynealSocketPort: '5555'
+scannerBaseDir: /home/cinl/repos/pyneal/rtfMRI/scannerData/20231203.rtfmri_dev01.CINL6914
+scannerMake: SiemensNX
+scannerSessionDir: /home/cinl/repos/pyneal/rtfMRI/scannerData/20231203.rtfmri_dev01.CINL6914

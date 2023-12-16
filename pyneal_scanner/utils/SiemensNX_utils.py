@@ -632,7 +632,7 @@ class Siemens_processNXdicom(Thread):
         """ Process a given dicom file
 
         This method will read the dicom file. Convert to a nifti object
-        that will provide the 3D voxel array for this mosaic. Reorder to RAS+,
+        that will provide the 3D voxel array. Reorder to RAS+,
         and then send to the pynealSocket
 
         Parameters
@@ -654,7 +654,7 @@ class Siemens_processNXdicom(Thread):
         dcm = pydicom.dcmread(dcm_fname)     # create dicom object
 
         thisVol = nic.wrapper_from_data(dcm)
-        thisVolNifti = nin.Nifti1Image(thisVol.get_data(), thisVol.affine)
+        thisVolNifti = nib.Nifti1Image(thisVol.get_data(), thisVol.affine)
         
         # convert to RAS+
         thisVol_RAS = nib.as_closest_canonical(thisVolNifti)
@@ -662,13 +662,26 @@ class Siemens_processNXdicom(Thread):
         # get the data as a contiguous array (required for ZMQ)
         thisVol_RAS_data = np.ascontiguousarray(thisVol_RAS.get_fdata())
 
+        # To access the Repetition Time (TR) DICOM header field in an Enhanced MR DICOM file using pydicom,
+        # you need to navigate through the DICOM dataset considering the nested structure of the tags.
+        # The Repetition Time field is usually nested within the "Shared Functional Groups Sequence" tag:
+        # Enhanced MR DICOM/
+        # ├─ SharedFunctionalGroupsSequence/
+        # │  ├─ MRTimingAndRelatedParametersSequence/
+        # │  |  ├─ RepetitionTime
+        # Use standard array indexing to access the first item in each sequence (list).
+
+        shared_func_groups_seq = dcm.SharedFunctionalGroupsSequence
+        mr_timing = shared_func_groups_seq[0].MRTimingAndRelatedParametersSequence
+        repetition_time = mr_timing[0].RepetitionTime
+
         ### Create a header with metadata info
         volHeader = {
             'volIdx': volIdx,
             'dtype': str(thisVol_RAS_data.dtype),
             'shape': thisVol_RAS_data.shape,
             'affine': json.dumps(thisVol_RAS.affine.tolist()),
-            'TR': str(dcm.RepetitionTime / 1000)}
+            'TR': str(repetition_time / 1000)}
 
         ### Send the voxel array and header to the pynealSocket
         self.sendVolToPynealSocket(volHeader, thisVol_RAS_data)
