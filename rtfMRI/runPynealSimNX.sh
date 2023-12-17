@@ -18,7 +18,7 @@ pynealsims="$pynealscanner/simulation/scannerSimulators"
 scannerdata="$pyneal/rtfMRI/scannerData"
 
 # Commands to run in each terminal
-command1="python $pynealsims/Siemens_sim.py /home/cinl/pyneal-tutorial-master/Siemens_demo/scanner/data 000013 -t 1000"
+command1="python $pynealsims/SiemensNX_sim.py $scannerdata/20231203.rtfmri_dev01.CINL6914 000005 -t 1000 -n 000014"
 title1="Simulator"
 
 command2="python $pynealscanner/pynealScanner.py"

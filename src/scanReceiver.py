@@ -5,10 +5,10 @@ This tool is designed to be run in a separate thread, where it will:
     volume data from the scanner)
     - listen for incoming volume data (preceded by a header)
     - format the incoming data, and assign it to the proper location in a
-    4D matrix for the entire san
+    4D matrix for the entire scan
 
-In additiona, it also includes various methods for accessing the progress of an
-on-going scan, and returning data that has successfully arrived, etc.
+In addition, it also includes various methods for accessing the progress of an
+ongoing scan, and returning data that has successfully arrived, etc.
 
 Notes for setting up:
 ** Socket Connection:
@@ -38,9 +38,9 @@ confirmation string message.
 ** Volume Orientation:
 Pyneal works on the assumption that incoming volumes will have the 3D
 voxel array ordered like RAS+, and that the accompanying affine will provide
-a transform from voxel space RAS+ to mm space RAS+. In order to any mask-based
+a transform from voxel space RAS+ to mm space RAS+. In order for any mask-based
 analysis in Pyneal to work, we need to make sure that the incoming data and the
-mask data are reprsented in the same way. The pyneal_scanner utilities have all
+mask data are represented in the same way. The pyneal_scanner utilities have all
 been configured to ensure that each volume that is transmitted is in RAS+
 space.
 

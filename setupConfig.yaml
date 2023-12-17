@@ -1,9 +1,9 @@
 pynealHost: 127.0.0.1
 pynealScannerPort: 5555
 resultsServerPort: 5556
-maskFile: /home/cinl/pyneal-tutorial/Siemens_demo/dummyMask_64-64-18.nii.gz
+maskFile: /home/cinl/repos/pyneal/rtfMRI/dummyMask_64-64-44.nii.gz
 maskIsWeighted: false
-numTimepts: 60
+numTimepts: 180
 analysisChoice: Average
 estimateMotion: False
 outputPath: /home/cinl/pyneal-tutorial/Siemens_demo/output/

@@ -1,0 +1,5 @@
+pynealSocketHost: 127.0.0.1
+pynealSocketPort: '5555'
+scannerBaseDir: /home/cinl/pyneal-tutorial-master/Siemens_demo/scanner/data
+scannerMake: Siemens
+scannerSessionDir: /home/cinl/pyneal-tutorial-master/Siemens_demo/scanner/data

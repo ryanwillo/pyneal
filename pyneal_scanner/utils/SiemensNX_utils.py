@@ -647,10 +647,9 @@ class Siemens_processNXdicom(Thread):
         volIdx = int(Siemens_VolumeNumberField.search(dicomFile_name).group(0)) - 1
         self.logger.info('Volume {} processing'.format(volIdx))
 
-        ### Parse the mosaic image into a 3D volume
-        # we use the nibabel mosaic_to_nii() method which does a lot of the
-        # heavy-lifting of extracting slices, arranging in a 3D array, and
-        # grabbing the affine
+        ### Parse the image into a 3D volume
+        # we use the nibabel nicom wrapper to grab the data and the affine
+        # and convert to Nifti
         dcm = pydicom.dcmread(dcm_fname)     # create dicom object
 
         thisVol = nic.wrapper_from_data(dcm)
@@ -661,6 +660,9 @@ class Siemens_processNXdicom(Thread):
 
         # get the data as a contiguous array (required for ZMQ)
         thisVol_RAS_data = np.ascontiguousarray(thisVol_RAS.get_fdata())
+
+        # squeeze to remove dimensions of length one
+        thisVol_RAS_data = np.squeeze(thisVol_RAS_data)
 
         # To access the Repetition Time (TR) DICOM header field in an Enhanced MR DICOM file using pydicom,
         # you need to navigate through the DICOM dataset considering the nested structure of the tags.
@@ -682,6 +684,12 @@ class Siemens_processNXdicom(Thread):
             'shape': thisVol_RAS_data.shape,
             'affine': json.dumps(thisVol_RAS.affine.tolist()),
             'TR': str(repetition_time / 1000)}
+        
+        self.logger.info('volIdx = {}'.format(volIdx))
+        self.logger.info('dtype = {}'.format(str(thisVol_RAS_data.dtype)))
+        self.logger.info('shape = {}'.format(thisVol_RAS_data.shape))
+        self.logger.info('affine = {}'.format(json.dumps(thisVol_RAS.affine.tolist())))
+        self.logger.info('TR = {}'.format(str(repetition_time / 1000)))
 
         ### Send the voxel array and header to the pynealSocket
         self.sendVolToPynealSocket(volHeader, thisVol_RAS_data)

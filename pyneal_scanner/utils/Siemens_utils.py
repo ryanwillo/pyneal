@@ -662,6 +662,12 @@ class Siemens_processMosaic(Thread):
             'shape': thisVol_RAS_data.shape,
             'affine': json.dumps(thisVol_RAS.affine.tolist()),
             'TR': str(dcm.RepetitionTime / 1000)}
+        
+        self.logger.info('volIdx = {}'.format(volIdx))
+        self.logger.info('dtype = {}'.format(str(thisVol_RAS_data.dtype)))
+        self.logger.info('shape = {}'.format(thisVol_RAS_data.shape))
+        self.logger.info('affine = {}'.format(json.dumps(thisVol_RAS.affine.tolist())))
+        self.logger.info('TR = {}'.format(str(dcm.RepetitionTime / 1000)))
 
         ### Send the voxel array and header to the pynealSocket
         self.sendVolToPynealSocket(volHeader, thisVol_RAS_data)
